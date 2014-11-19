@@ -2,8 +2,10 @@
 background.py
 Author: Adam Beagle
 
-Purpose:
-  Contains Background class.
+PURPOSE:
+  Implements background, i.e. visual elements that are not expected to be
+  interacted with in any way.
+
 """
 import pygame
 
@@ -11,8 +13,8 @@ from .sprites import Cloud
 
 class Background:
     """
-    Subclasses should add sprites with self-contained update() behavior to
-    Background.sprites.
+    Base class for backgrounds. Subclasses should add sprites with
+    self-contained update() behavior to a `sprites` attribute.
     """
     def __init__(self, fill_color):
         self.fill_color = fill_color
@@ -26,6 +28,7 @@ class Background:
         self.sprites.draw(sfc)
 
 class BlueSkyBackground(Background):
+    """Simple background with solid blue sky and moving clouds."""
     def __init__(self):
         super().__init__((135, 206, 235))
         self.sprites = pygame.sprite.Group(
