@@ -3,9 +3,9 @@ manager.py
 Author: Adam Beagle
 
 PURPOSE:
-  A single instance of the UIManager class should be the sole interface
+  An instance of the UIManager class should be the sole interface
   between the main module and the ui subpackage. Main should call the
-  objects update() and draw() methods once per frame.
+  instance's update() and draw() methods once per frame.
 
 CONTENTS:
   AudioPlayer
