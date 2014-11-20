@@ -123,5 +123,3 @@ class UIManager:
             pygame.time.wait(1000)
 
         self.postupdate(gamestate, gamedata, dt)
-
-

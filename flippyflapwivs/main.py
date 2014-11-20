@@ -14,7 +14,10 @@ from argparse import ArgumentParser
 from os import environ, path
 from sys import path as syspath
 
+from adamlib.util.file_util import PersistentData
 import pygame
+
+DATA_PATH = path.abspath(path.join(path.dirname(__file__), 'res', 'data.dat'))
 
 # Add root directory to sys.path if package not installed
 try:
@@ -35,14 +38,23 @@ def main():
     pygame.init()
     pygame.display.set_caption('Flippyflap Wivs')
     environ['SDL_VIDEO_WINDOW_POS'] = 'center'
+
+    # Load high score
+    pd = PersistentData(DATA_PATH)
+    if path.exists(DATA_PATH):
+        pd.load()
+    else:
+        pd.high_score = 0
     
     clock = pygame.time.Clock()
     dt = 1
     gdt = 60 / CONFIG.FPS_LIMIT
     gs = GameState()
-    gd = GameData()
+    gd = GameData(pd.high_score)
     uim = UIManager(gd.n_columns, gdt*gd.scroll_speed)
+    end = False
 
+    # Prep for game loop
     pygame.mouse.set_visible(0)
     pygame.event.set_allowed(None)
     pygame.event.set_allowed(
@@ -50,21 +62,21 @@ def main():
     )
 
     # Game loop
-    while True:
+    while not end:
         # Transition state
         gs.transition_state()
         
         # Handle Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                end = True
             elif event.type == pygame.KEYDOWN:
                 handle_event_keydown(gs, event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 handle_event_mousebuttondown(gs, event)
 
         if gs.state == gs.QUIT:
-            return
+            end = True
 
         if gs.state != gs.PAUSE:
             # Update
@@ -82,6 +94,10 @@ def main():
         dt = fps / CONFIG.FPS_LIMIT
         pygame.event.pump()
 
+
+    # Save high score
+    pd.high_score = gd.high_score
+    pd.save()
     pygame.quit()
 
 def handle_event_keydown(gamestate, event):

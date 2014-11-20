@@ -5,7 +5,6 @@ Author: Adam Beagle
 PURPOSE:
   Implements background, i.e. visual elements that are not expected to be
   interacted with in any way.
-
 """
 import pygame
 
@@ -34,5 +33,3 @@ class BlueSkyBackground(Background):
         self.sprites = pygame.sprite.Group(
             Cloud(), Cloud(), Cloud(), Cloud(), Cloud(), Cloud(),
         )
-
-

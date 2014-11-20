@@ -104,9 +104,9 @@ class Game:
     COLUMN_DIST = 0.2
     N_COLUMNS = ceil(1 / (Column.W + COLUMN_DIST))
     
-    def __init__(self):
+    def __init__(self, high_score=0):
         self.player = Player()
-        self.high_score = 0
+        self.high_score = high_score
         self.reset()
 
     def reset(self):
@@ -124,6 +124,9 @@ class Game:
     def update(self, gamestate, dt):
         gs = gamestate
         self.player.update(gamestate, dt)
+
+        if self.player.score > self.high_score:
+            self.high_score = self.player.score
         
         for c in self.columns:
             c.update(gamestate, dt)
@@ -154,8 +157,8 @@ class GameData:
       score
       scroll_speed     - See Column.DX
     """
-    def __init__(self):
-        self._game = Game()
+    def __init__(self, high_score):
+        self._game = Game(high_score)
 
     def postupdate(self, gamestate, dt):
         self._game.postupdate(gamestate, dt)
