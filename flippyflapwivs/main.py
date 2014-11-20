@@ -17,8 +17,6 @@ from sys import path as syspath
 from adamlib.util.file_util import PersistentData
 import pygame
 
-DATA_PATH = path.abspath(path.join(path.dirname(__file__), 'res', 'data.dat'))
-
 # Add root directory to sys.path if package not installed
 try:
     from flippyflapwivs import CONFIG
@@ -30,6 +28,8 @@ except ImportError:
     
 from game import GameData, GameState
 from ui import UIManager
+
+DATA_PATH = path.abspath(path.join(path.dirname(__file__), 'res', 'data.dat'))
 
 def main():
     parse_args() # Sets CONFIG options.
